@@ -1,6 +1,6 @@
 class Club < ApplicationRecord
-  belongs_to :current_book, class_name: 'Book', optional: true
-  belongs_to :created_by, class_name: 'User'
+  belongs_to :current_book, class_name: "Book", optional: true
+  belongs_to :created_by, class_name: "User"
   has_many :club_members
   has_many :users, through: :club_members
   has_many :reading_list_books
