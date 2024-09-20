@@ -47,8 +47,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_20_063324) do
   create_table "clubs", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.integer "current_book_id", null: false
-    t.integer "created_by_id", null: false
+    t.integer "current_book_id"
+    t.integer "created_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_by_id"], name: "index_clubs_on_created_by_id"
@@ -89,8 +89,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_20_063324) do
   add_foreign_key "chats", "users"
   add_foreign_key "club_members", "clubs"
   add_foreign_key "club_members", "users"
-  add_foreign_key "clubs", "created_bies"
-  add_foreign_key "clubs", "current_books"
+  add_foreign_key "clubs", "books", column: "current_book_id"
+  add_foreign_key "clubs", "users", column: "created_by_id"
   add_foreign_key "reading_list_books", "books"
   add_foreign_key "reading_list_books", "clubs"
   add_foreign_key "reviews", "books"

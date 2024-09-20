@@ -3,8 +3,8 @@ class CreateClubs < ActiveRecord::Migration[7.2]
     create_table :clubs do |t|
       t.string :name
       t.text :description
-      t.references :current_book, null: false, foreign_key: true
-      t.references :created_by, null: false, foreign_key: true
+      t.references :current_book, foreign_key: { to_table: :books }
+      t.references :created_by, foreign_key: { to_table: :users }
 
       t.timestamps
     end
