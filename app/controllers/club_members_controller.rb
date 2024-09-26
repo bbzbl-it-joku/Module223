@@ -55,7 +55,7 @@ class ClubMembersController < ApplicationController
   end
 
   def club_member_params
-    params.require(:club_member).permit(:user_id, :role)
+    params.require(:club_member).permit(:user_id)
   end
 
   def authorize_club_admin
