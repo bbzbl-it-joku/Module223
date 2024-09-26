@@ -1,11 +1,9 @@
 <div class="container mx-auto px-4 py-8">
   <h1 class="text-3xl font-bold mb-6 text-purple-400"><%= @club.name %> - Chat</h1>
-
   <div class="bg-gray-800 rounded-lg shadow-md p-6 mb-6">
     <div id="chat-messages" class="h-96 overflow-y-auto mb-4">
       <%= render partial: 'chat_messages', locals: { chats: @chats } %>
     </div>
-
     <%= form_with(model: [@club, @chat], local: true, class: "mt-4") do |f| %>
       <div class="flex">
         <%= f.text_field :message, class: "flex-grow shadow appearance-none border rounded-l w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", placeholder: "Type your message...", autofocus: true %>
@@ -13,19 +11,17 @@
       </div>
     <% end %>
   </div>
-
   <div class="mt-4">
     <%= link_to 'Back to Club', @club, class: 'bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded' %>
   </div>
 </div>
-
 <script>
-// Function to scroll to the bottom of the chat
-function scrollToBottom() {
-  var chatMessages = document.getElementById('chat-messages');
-  if (chatMessages) {
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+  // Function to scroll to the bottom of the chat
+  function scrollToBottom() {
+    var chatMessages = document.getElementById('chat-messages');
+    if (chatMessages) {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
   }
-}
-scrollToBottom();
+  scrollToBottom();
 </script>

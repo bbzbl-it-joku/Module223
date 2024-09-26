@@ -30,6 +30,9 @@
               <% if logged_in? %>
                 <%= link_to "Clubs", clubs_path, class: "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300" %>
               <% end %>
+              <% if current_user != nil && current_user.role == 'ADMIN' %>
+                <%= link_to "Admin", admins_path, class: "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300" %>
+              <% end %>
               </div>
             </div>
             <div class="ml-4 flex items-center md:ml-6">

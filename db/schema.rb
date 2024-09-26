@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_24_064102) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_26_201605) do
   create_table "books", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -89,6 +89,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_064102) do
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.bigint "whodunnit"
+    t.datetime "created_at"
+    t.bigint "item_id", null: false
+    t.string "item_type", null: false
+    t.string "event", null: false
+    t.text "object", limit: 1073741823
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   add_foreign_key "chats", "clubs"

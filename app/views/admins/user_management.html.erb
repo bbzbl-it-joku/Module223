@@ -1,0 +1,43 @@
+<h1 class="text-3xl font-bold mb-8 text-center text-purple-400">User Management</h1>
+
+<div class="flex justify-start my-6">
+  <%= link_to "Back to Admin Dashboard", admins_path, class: "bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300" %>
+</div>
+
+<div class="overflow-x-auto">
+  <table class="min-w-full bg-gray-800 shadow-md rounded-lg overflow-hidden">
+    <thead class="bg-gray-700">
+      <tr>
+        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Username</th>
+        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Email</th>
+        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Role</th>
+        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-700">
+      <% @users.each do |user| %>
+        <tr>
+          <td class="px-4 py-3 whitespace-nowrap"><%= user.username %></td>
+          <td class="px-4 py-3 whitespace-nowrap"><%= user.email %></td>
+          <td class="px-4 py-3 whitespace-nowrap">
+            <span class="<%= user.role == 'ADMIN' ? 'text-green-400' : 'text-blue-400' %>">
+              <%= user.role == 'ADMIN' ? 'Admin' : 'User' %>
+            </span>
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap">
+            <% if user == current_user %>
+              <p class="text-gray-300">Current User</p>
+            <% else %>
+              <%= link_to "Edit", edit_user_path(user), class: "text-yellow-400 hover:text-yellow-300 mr-2" %>
+              <%= button_to "Delete", delete_account_path(user), method: :delete, data: { confirm: "Are you sure you want to delete this user?" }, class: "text-red-400 hover:text-red-300" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="mt-6">
+  <%= paginate @users %>
+</div>

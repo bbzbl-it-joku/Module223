@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_login, except: [ :new, :create ]
-  before_action :set_user, only: [ :show, :edit, :update ]
+  before_action :set_user, only: [ :show, :edit, :update, :destroy ]
   before_action :authorize_user, only: [ :show, :edit, :update ]
 
   def index
@@ -55,6 +55,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    @user.destroy
+    if @user == current_user
+      session[:user_id] = nil
+    end
+    redirect_to root_path, notice: "Account deleted."
+  end
+
   def resend_confirmation
     current_user.generate_confirmation_token
     current_user.send_confirmation_instructions
@@ -80,6 +88,6 @@ class UsersController < ApplicationController
   end
 
   def user_update_params
-    params.require(:user).permit(:username, :email)
+    params.require(:user).permit(:username, :email, :role)
   end
 end

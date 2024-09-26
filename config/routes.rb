@@ -1,9 +1,4 @@
 Rails.application.routes.draw do
-  get "chats/index"
-  get "chats/create"
-  get "chats/destroy"
-  get "chats/index"
-  get "chats/create"
   root "pages#home"
   get "about", to: "pages#about"
   get "error", to: "pages#error"
@@ -11,19 +6,21 @@ Rails.application.routes.draw do
   resources :users
   resources :clubs do
     member do
-      get 'edit_members'
+      get "edit_members"
       post "join"
       delete "leave"
     end
-    resources :club_members, only: [:create, :update, :destroy]
-    resources :reading_list_books, only: [:create, :update, :destroy]
-    resources :chats, only: [:index, :create, :destroy] do
-      get 'load_more', on: :collection
+    resources :club_members, only: [ :create, :update, :destroy ]
+    resources :reading_list_books, only: [ :create, :update, :destroy ]
+    resources :chats, only: [ :index, :create, :destroy ] do
+      get "load_more", on: :collection
     end
   end
   resources :books do
     resources :reviews
   end
+
+  resources :user, only: [ :destroy ], as: "delete_account"
 
   get "signup", to: "users#new"
   get "login", to: "sessions#new"
@@ -35,6 +32,13 @@ Rails.application.routes.draw do
 
   get "confirm_email/:confirmation_token", to: "users#confirm_email", as: "confirm_email"
   post "resend_confirmation", to: "users#resend_confirmation"
+
+  resources :admins, only: [ :index ], path: "admin" do
+    collection do
+      get "users" => "admins#user_management"
+      get "activity" => "admins#activity"
+    end
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

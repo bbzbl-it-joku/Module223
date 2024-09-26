@@ -1,0 +1,41 @@
+<h1 class="text-3xl font-bold mb-8 text-center text-purple-400">Activity Log</h1>
+<div class="flex justify-start my-6">
+  <%= link_to "Back to Admin Dashboard", admins_path, class: "bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300" %>
+</div>
+<div class="overflow-x-auto">
+  <table class="min-w-full bg-gray-800 shadow-md rounded-lg overflow-hidden">
+    <thead class="bg-gray-700">
+      <tr>
+        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Item Type</th>
+        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Item ID</th>
+        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Event</th>
+        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Whodunnit</th>
+        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Changes</th>
+        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Timestamp</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-700">
+      <% @versions.each do |version| %>
+        <tr>
+          <td class="px-4 py-3 whitespace-nowrap"><%= version.item_type %></td>
+          <td class="px-4 py-3 whitespace-nowrap"><%= version.item_id %></td>
+          <td class="px-4 py-3 whitespace-nowrap"><%= version.event %></td>
+          <td class="px-4 py-3 whitespace-nowrap"><%= User.find_by(id: version.whodunnit)&.username || 'Unknown' %></td>
+          <td class="px-4 py-3">
+            <% if version.changeset.present? %>
+              <ul>
+                <% JSON.parse(version.object_changes).each do |attr, changes| %>
+                  <li><%= "#{attr}: #{changes[0]} -> #{changes[1]}" %></li>
+                <% end %>
+              </ul>
+            <% end %>
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap"><%= version.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<div class="mt-6">
+  <%= paginate @versions %>
+</div>
