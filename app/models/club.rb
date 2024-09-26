@@ -9,6 +9,7 @@ class Club < ApplicationRecord
   has_many :chats, dependent: :destroy
 
 
-  validates :name, presence: true, uniqueness: true
-  validates :description, presence: true
+  validates :name, presence: true, uniqueness: true, length: { maximum: 100 }
+  validates :description, presence: true, length: { maximum: 1000 }
+  validates :created_by_id, presence: true
 end

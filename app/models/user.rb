@@ -4,11 +4,12 @@ class User < ApplicationRecord
   has_many :club_members, dependent: :destroy
   has_many :clubs, through: :club_members
 
-  has_secure_password
-
   validates :username, presence: true, uniqueness: true, length: { minimum: 3, maximum: 50 }
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, length: { minimum: 12 }, if: -> { new_record? || !password.nil? }
+  validates :role, inclusion: { in: %w[USER ADMIN] }
+
+  has_secure_password
 
   normalizes :email, with: ->(email) { email.strip.downcase }
 
