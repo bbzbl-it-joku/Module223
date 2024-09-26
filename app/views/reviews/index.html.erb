@@ -1,0 +1,25 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6 text-purple-400">Reviews for <%= @book.title %></h1>
+
+  <% @reviews.each do |review| %>
+    <div class="bg-gray-800 rounded-lg shadow-md p-6 mb-4">
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-gray-300 font-bold"><%= review.user.username %></span>
+        <span class="text-yellow-400"><%= "★" * review.rating %><%= "☆" * (5 - review.rating) %></span>
+      </div>
+      <p class="text-gray-300 mb-4"><%= review.review_text %></p>
+      <div class="text-sm text-gray-500">
+        <%= review.created_at.strftime("%B %d, %Y") %>
+      </div>
+      <% if current_user == review.user || current_user.role == "ADMIN" %>
+        <div class="mt-4">
+          <%= link_to 'Edit', edit_book_review_path(@book, review), class: 'text-purple-400 hover:text-purple-300 mr-2' %>
+          <%= button_to 'Delete', book_review_path(@book, review), method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-red-400 hover:text-red-300' %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= link_to 'Add a Review', new_book_review_path(@book), class: 'bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded' %>
+  <%= link_to 'Back to Book', book_path(@book), class: 'bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2' %>
+</div>

@@ -1,0 +1,41 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6 text-purple-400">Manage Members - <%= @club.name %></h1>
+  <div class="bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+    <div class="flex justify-between mb-4">
+      <div class="text-purple-400">Username</div>
+      <div class="text-purple-400">Role</div>
+      <div class="text-purple-400">Actions</div>
+    </div>
+    <% @club_members.each do |member| %>
+      <div class="flex justify-between items-center border-t border-gray-700 py-4">
+        <div class="w-1/4 text-gray-300"><%= member.user.username %></div>
+        <div class="w-1/4 flex justify-center">
+          <% if member.user != @club.created_by %>
+            <%= form_with(model: [@club, member], local: true, class: "inline", data: { turbo: false }) do |f| %>
+              <%= f.select :role,
+              options_for_select([['Admin', 'ADMIN'], ['Member', 'MEMBER']], member.role),
+              {},
+              class: "bg-gray-700 text-gray-300 rounded px-2 py-1 w-32",
+              onchange: "this.form.requestSubmit();"
+            %>
+            <% end %>
+          <% else %>
+            <span class="text-gray-500">Club Creator</span>
+          <% end %>
+        </div>
+        <div class="w-1/4 flex justify-end">
+          <% if member.user != @club.created_by %>
+            <%= button_to "Remove", club_club_member_path(@club, member), method: :delete,
+              data: { confirm: "Are you sure you want to remove this member?" },
+              class: "bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm" %>
+          <% else %>
+            <span class="text-gray-500">Club Creator</span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="mt-6">
+    <%= link_to "Back to Club", @club, class: "bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+</div>

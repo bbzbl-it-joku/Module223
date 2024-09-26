@@ -1,0 +1,89 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6 text-purple-400"><%= @club.name %></h1>
+  <div class="bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+    <h2 class="text-xl font-bold mb-2 text-purple-400">About</h2>
+    <p class="text-gray-300 mb-4"><%= @club.description %></p>
+    <p class="text-sm text-gray-500">Created by: <%= @club.created_by.username %></p>
+  </div>
+  <div class="bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+    <h2 class="text-xl font-bold mb-2 text-purple-400">Current Book</h2>
+    <% if @current_book %>
+      <p class="text-gray-300"><%= link_to @current_book.title, book_path(@current_book) %></p>
+    <% else %>
+      <p class="text-gray-300">No book currently selected</p>
+    <% end %>
+    <% if current_user == @club.created_by || current_user.role == "ADMIN" %>
+      <div class="mt-4">
+        <%= form_with(model: @club, local: true) do |f| %>
+          <%= f.collection_select :current_book_id, ReadingListBook.where(club_id: @club.id, status: ['to_read', 'reading']).map(&:book), :id, :title, { prompt: "Select a book" }, class: "mr-2 p-2 text-gray-800 rounded" %>
+          <%= f.submit "Update Current Book", class: "bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class="bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+    <h2 class="text-xl font-bold mb-2 text-purple-400">Chat</h2>
+    <%= link_to 'Enter Chat Room', club_chats_path(@club), class: 'bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mr-2' %>
+  </div>
+  <div class="bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+    <h2 class="text-xl font-bold mb-2 text-purple-400">Reading List</h2>
+    <% if @club.users.include?(current_user) %>
+      <%= form_with(model: [@club, ReadingListBook.new], local: true, class: "mb-4") do |f| %>
+        <%= f.collection_select :book_id, Book.all, :id, :title, { prompt: "Select a book" }, class: "mr-2 p-2 text-gray-800 rounded" %>
+        <% if current_user == @club.created_by || current_user.role == "ADMIN" %>
+          <%= f.select :status, options_for_select([['To Read', 'to_read'], ['Reading', 'reading'], ['Completed', 'completed']], 'to_read'), {}, class: "mr-2 p-2 text-gray-800 rounded" %>
+        <% end %>
+        <%= f.submit "Add to Reading List", class: "bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" %>
+      <% end %>
+    <% end %>
+    <ul class="list-disc list-inside text-gray-300">
+      <% @reading_list.each do |rlb| %>
+        <li class="mb-2">
+          <%= link_to rlb.book.title, book_path(rlb.book), class: "text-purple-400 hover:text-purple-300" %>
+          <% if current_user == @club.created_by || current_user.role == "ADMIN" %>
+            <%= form_with(model: [@club, rlb], method: :patch, local: true, class: "inline ml-2") do |f| %>
+              <%= f.select :status, options_for_select([['To Read', 'to_read'], ['Reading', 'reading'], ['Completed', 'completed']], rlb.status), {}, class: "mr-2 p-1 rounded text-gray-800" %>
+              <%= f.submit "Update", class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm" %>
+            <% end %>
+            <%= button_to "Remove", club_reading_list_book_path(@club, rlb), method: :delete, class: "bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm ml-2", form: { class: "inline" } %>
+          <% else %>
+            <span class="ml-2 text-sm text-gray-500"><%= rlb.status.split('_').map(&:capitalize).join(' ') %></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+    <% if current_user == @club.created_by || current_user.role == "ADMIN" %>
+      <div class="mt-4">
+        <%= button_to "Clear Reading List", club_reading_list_book_path(@club, "all"), method: :delete, data: { confirm: 'Are you sure?' }, class: "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+    <h2 class="text-xl font-bold mb-2 text-purple-400">Members</h2>
+    <ul class="list-disc list-inside text-gray-300">
+      <% @members.each do |member| %>
+        <li><%= member.user.username %> (<%= member.role %>)</li>
+      <% end %>
+    </ul>
+    <% if current_user == @club.created_by || (current_user.club_members.find_by(club: @club)&.role == "ADMIN") %>
+      <%= link_to 'Manage Members', edit_members_club_path(@club), class: 'mt-4 inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded' %>
+    <% end %>
+  </div>
+  <div class="flex items-center justify-between">
+    <% if current_user %>
+      <% if @club.users.include?(current_user) %>
+        <% if current_user == @club.created_by %>
+          <span class="text-gray-500">You are the creator of this club</span>
+        <% else %>
+          <%= button_to 'Leave Club', leave_club_path(@club), method: :delete, class: 'bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2' %>
+        <% end %>
+      <% else %>
+        <%= button_to 'Join Club', join_club_path(@club), method: :post, class: 'bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2' %>
+      <% end %>
+    <% end %>
+    <% if current_user == @club.created_by || current_user.role == "ADMIN" %>
+      <%= link_to 'Edit Club', edit_club_path(@club), class: 'bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mr-2' %>
+      <%= button_to 'Delete Club', @club, method: :delete, data: { confirm: 'Are you sure?' }, class: 'bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' %>
+    <% end %>
+  </div>
+</div>

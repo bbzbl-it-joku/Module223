@@ -1,0 +1,6 @@
+$('#chat-messages').prepend('<%= j render partial: "chat_messages", locals: { chats: @chats } %>');
+<% if @more_chats_available %>
+  $('#load-more-button').attr('href', '<%= load_more_club_chats_path(@club, offset: @offset + 100) %>');
+<% else %>
+  $('#load-more-container').remove();
+<% end %>

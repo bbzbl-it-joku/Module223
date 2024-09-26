@@ -1,0 +1,18 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6 text-purple-400">Book Clubs</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% @clubs.each do |club| %>
+      <div class="bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-bold mb-2 text-purple-400"><%= link_to club.name, club_path(club) %></h2>
+        <p class="text-gray-300 mb-4"><%= truncate(club.description, length: 100) %></p>
+        <div class="text-sm text-gray-500">
+          <p>Members: <%= club.users.count %></p>
+          <p>Created by: <%= club.created_by.username %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <%= link_to 'Create New Club', new_club_path, class: 'mt-6 inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded' %>
+</div>

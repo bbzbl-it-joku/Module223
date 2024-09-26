@@ -1,0 +1,12 @@
+<% chats.each do |chat| %>
+  <div class="mb-4 flex justify-between items-center" id="chat-<%= chat.id %>">
+    <div>
+      <span class="font-bold text-purple-400"><%= chat.user.username %>:</span>
+      <span class="text-gray-300"><%= chat.message %></span>
+      <span class="text-xs text-gray-500 ml-2"><%= chat.created_at.strftime("%H:%M %d/%m/%Y") %></span>
+    </div>
+    <% if current_user == chat.user || current_user.role == "ADMIN" || current_user == @club.created_by || @club.club_members.find_by(user_id: current_user.id).role == "ADMIN" %>
+      <%= link_to "Delete", club_chat_path(@club, chat), method: :delete, data: { confirm: 'Are you sure?' }, class: "bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm", remote: true %>
+    <% end %>
+  </div>
+<% end %>
