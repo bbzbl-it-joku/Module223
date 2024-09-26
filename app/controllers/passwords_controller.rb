@@ -7,12 +7,12 @@ class PasswordsController < ApplicationController
   def update
     if current_user.authenticate(params[:current_password])
       if current_user.update(password_params)
-        redirect_to current_user, notice: 'Password changed successfully.'
+        redirect_to current_user, notice: "Password changed successfully."
       else
         render :edit, status: :unprocessable_entity
       end
     else
-      flash.now[:alert] = 'Current password is incorrect.'
+      flash.now[:alert] = "Current password is incorrect."
       render :edit, status: :unprocessable_entity
     end
   end

@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_action :set_user, only: [:home, :about, :error]
+  before_action :set_user, only: [ :home, :about, :error ]
 
   def home
   end

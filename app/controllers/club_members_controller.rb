@@ -1,7 +1,7 @@
 class ClubMembersController < ApplicationController
   before_action :require_login
   before_action :set_club
-  before_action :set_club_member, only: [:update, :destroy]
+  before_action :set_club_member, only: [ :update, :destroy ]
   before_action :authorize_club_admin
 
   def create

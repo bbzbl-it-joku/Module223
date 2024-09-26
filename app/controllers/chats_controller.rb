@@ -20,7 +20,7 @@ class ChatsController < ApplicationController
     if @chat.save
       @chats = @club.chats.includes(:user).order(created_at: :desc).limit(100)
       respond_to do |format|
-        format.html { redirect_to club_chats_path(@club), notice: 'Message sent successfully.' }
+        format.html { redirect_to club_chats_path(@club), notice: "Message sent successfully." }
         format.js
       end
     else
@@ -35,11 +35,11 @@ class ChatsController < ApplicationController
       @chat.destroy
       @chats = @club.chats.includes(:user).order(created_at: :desc).limit(100)
       respond_to do |format|
-        format.html { redirect_to club_chats_path(@club), notice: 'Message deleted successfully.' }
+        format.html { redirect_to club_chats_path(@club), notice: "Message deleted successfully." }
         format.js
       end
     else
-      redirect_to club_chats_path(@club), alert: 'You are not authorized to delete this message.'
+      redirect_to club_chats_path(@club), alert: "You are not authorized to delete this message."
     end
   end
 

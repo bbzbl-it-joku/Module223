@@ -1,8 +1,8 @@
 class ClubsController < ApplicationController
-  before_action :require_login, except: [:index, :show]
-  before_action :set_club, only: [:show, :edit, :update, :destroy, :join, :leave, :edit_members]
-  before_action :require_admin, only: [:edit, :update, :destroy, :edit_members]
-  before_action :authorize_club, only: [:edit, :update, :destroy, :edit_members]
+  before_action :require_login, except: [ :index, :show ]
+  before_action :set_club, only: [ :show, :edit, :update, :destroy, :join, :leave, :edit_members ]
+  before_action :require_admin, only: [ :edit, :update, :destroy, :edit_members ]
+  before_action :authorize_club, only: [ :edit, :update, :destroy, :edit_members ]
 
   def index
     @clubs = Club.all
