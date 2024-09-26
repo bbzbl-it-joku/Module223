@@ -30,5 +30,18 @@
 
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "bin/setup"
+  "postCreateCommand": "bin/setup",
+  "customizations": {
+    "git": {
+      "config": {
+        "user.name": "jokudev",
+        "user.email": "git@joku.dev"
+      }
+    },
+    "vscode": {
+      "extensions": [
+        "Shopify.ruby-extensions-pack"
+      ]
+    }
+  }
 }
