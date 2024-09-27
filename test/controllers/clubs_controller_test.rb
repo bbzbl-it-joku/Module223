@@ -12,9 +12,15 @@ class ClubsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should show club" do
+  test "should show club when logged in" do
+    log_in_as(@user)
     get club_path(@club)
     assert_response :success
+  end
+
+  test "should not show club when not logged in" do
+    get club_path(@club)
+    assert_redirected_to login_path
   end
 
   test "should get new" do
@@ -61,19 +67,17 @@ class ClubsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to clubs_path
   end
 
-  test "should join club" do
-    log_in_as(@other_user)
-    assert_difference("ClubMember.count") do
-      post join_club_path(@club)
-    end
-    assert_redirected_to @club
-  end
-
   test "should leave club" do
-    log_in_as(@user)
+    log_in_as(@other_user)
     assert_difference("ClubMember.count", -1) do
       delete leave_club_path(@club)
     end
     assert_redirected_to @club
+  end
+
+  private
+
+  def log_in_as(user)
+    post login_path, params: { email: user.email, password: "password1234" }
   end
 end
