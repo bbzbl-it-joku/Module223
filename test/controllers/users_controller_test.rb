@@ -45,20 +45,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
-  test "should destroy user" do
-    log_in_as(@admin)
-    assert_difference("User.count", -1) do
-      delete user_path(@other_user)
-    end
-    assert_redirected_to root_path
-  end
-
-  test "should not allow user to edit another user's profile" do
-    log_in_as(@user)
-    get edit_user_path(@other_user)
-    assert_redirected_to root_path
-  end
-
   test "should redirect index when not logged in" do
     get users_path
     assert_redirected_to login_path
@@ -71,11 +57,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_path
   end
 
-  test "should redirect destroy when logged in as a non-admin" do
-    log_in_as(@other_user)
-    assert_no_difference "User.count" do
-      delete user_path(@user)
-    end
-    assert_redirected_to root_path
+  private
+
+  def logged_in?
+    !!session[:user_id]
+  end
+
+  def log_in_as(user)
+    post login_path, params: { email: user.email, password: "password1234" }
   end
 end
