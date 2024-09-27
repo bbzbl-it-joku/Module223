@@ -65,7 +65,7 @@
         <li><%= member.user.username %> (<%= member.role %>)</li>
       <% end %>
     </ul>
-    <% if current_user == @club.created_by || (current_user.club_members.find_by(club: @club)&.role == "ADMIN") %>
+    <% if current_user == @club.created_by || (current_user.club_members.find_by(club: @club)&.role == "ADMIN") || current_user.role == "ADMIN" %>
       <%= link_to 'Manage Members', edit_members_club_path(@club), class: 'mt-4 inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded' %>
     <% end %>
   </div>
