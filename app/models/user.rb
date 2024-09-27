@@ -5,7 +5,7 @@ class User < ApplicationRecord
   has_many :clubs, through: :club_members
 
   validates :username, presence: true, uniqueness: true, length: { minimum: 3, maximum: 50 }
-  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }, length: { maximum: 255 }
   validates :password, length: { minimum: 12 }, if: -> { new_record? || !password.nil? }
   validates :role, inclusion: { in: %w[USER ADMIN] }
 
@@ -15,7 +15,6 @@ class User < ApplicationRecord
 
   before_create :generate_confirmation_token
   after_create :send_confirmation_instructions
-
 
   def confirm!
     update_columns(confirmed_at: Time.current, confirmation_token: nil)

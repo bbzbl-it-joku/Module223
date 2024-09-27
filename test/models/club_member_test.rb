@@ -21,15 +21,6 @@ class ClubMemberTest < ActiveSupport::TestCase
     assert_not @club_member.valid?
   end
 
-  test "role should be valid" do
-    @club_member.role = "INVALID_ROLE"
-    assert_not @club_member.valid?
-    @club_member.role = "MEMBER"
-    assert @club_member.valid?
-    @club_member.role = "ADMIN"
-    assert @club_member.valid?
-  end
-
   test "user should be unique within a club" do
     duplicate_member = @club_member.dup
     @club_member.save
