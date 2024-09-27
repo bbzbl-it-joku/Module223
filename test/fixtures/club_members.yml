@@ -3,9 +3,15 @@
 one:
   club: one
   user: one
-  role: MyString
+  role: ADMIN
+
+one_member:
+  club: one
+  user: two
+  role: MEMBER
 
 two:
   club: two
   user: two
-  role: MyString
+  role: ADMIN
+
