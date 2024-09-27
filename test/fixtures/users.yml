@@ -4,11 +4,13 @@ one:
   username: one
   email: one@test
   password_digest: <%= BCrypt::Password.create('password1234') %>
+  role: USER
 
 two:
   username: two
   email: two@test
   password_digest: <%= BCrypt::Password.create('password1234') %>
+  role: USER
 
 admin:
   username: admin
