@@ -9,3 +9,9 @@ two:
   username: two
   email: two@test
   password_digest: <%= BCrypt::Password.create('password') %>
+
+admin:
+  username: admin
+  email: admin@test
+  password_digest: <%= BCrypt::Password.create('password') %>
+  role: ADMIN
