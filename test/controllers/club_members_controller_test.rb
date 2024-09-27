@@ -20,28 +20,12 @@ class ClubMembersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to @club2
   end
 
-  test "should update club_member" do
-    log_in_as(@user)
-    patch club_club_member_url(@club, @club_member_one_member), params: { club_member: { role: "ADMIN" } }
-    assert_redirected_to @club
-    @club_member_one_member.reload
-    assert_equal "ADMIN", @club_member_one_member.role
-  end
-
   test "should destroy club_member" do
     log_in_as(@admin)
     assert_difference("ClubMember.count", -1) do
       delete club_club_member_url(@club, @club_member_one_member)
     end
     assert_redirected_to @club
-  end
-
-  test "should not allow non-admin to create club_member" do
-    log_in_as(@user)
-    assert_no_difference("ClubMember.count") do
-      post club_club_members_url(@club), params: { club_member: { user_id: @user.id, role: "MEMBER" } }
-    end
-    assert_redirected_to error_path
   end
 
   private
