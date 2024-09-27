@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/LineLength
 class ClubMembersController < ApplicationController
   before_action :require_login
   before_action :set_club
@@ -54,10 +55,6 @@ class ClubMembersController < ApplicationController
     @club_member = @club.club_members.find(params[:id])
   end
 
-  def club_member_params
-    params.require(:club_member).permit(:user_id, :role)
-  end
-
   def authorize_club_admin
     unless @club.club_members.exists?(user: current_user, role: "ADMIN") || current_user.role == "ADMIN"
       redirect_to error_path, alert: "You must be a club admin to perform this action."
@@ -70,3 +67,5 @@ class ClubMembersController < ApplicationController
     end
   end
 end
+
+# rubocop:enable Metrics/LineLength
