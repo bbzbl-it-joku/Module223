@@ -25,7 +25,7 @@ class ChatsController < ApplicationController
       end
     else
       @chats = @club.chats.includes(:user).order(created_at: :desc).limit(100)
-      render :index
+      render :index, status: :unprocessable_entity
     end
   end
 
