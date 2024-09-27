@@ -23,6 +23,6 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
   end
 
   def log_in_as(user)
-    post login_path, params: { email: user.email, password: "password" }
+    post login_path, params: { email: user.email, password: "password1234" }
   end
 end
