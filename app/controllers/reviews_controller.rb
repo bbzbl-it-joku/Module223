@@ -1,7 +1,7 @@
 class ReviewsController < ApplicationController
   before_action :require_login
-  before_action :set_review, only: [ :show, :edit, :update, :destroy ]
-  before_action :authorize_review, only: [ :edit, :update, :destroy ]
+  before_action :set_review, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_review, only: [:edit, :update, :destroy]
 
   def index
     @book = Book.find(params[:book_id])
@@ -25,7 +25,7 @@ class ReviewsController < ApplicationController
     if @review.save
       redirect_to book_path(@book), notice: "Review was successfully created."
     else
-      render :new
+      redirect_to new_book_review_path(@book), alert: "Review could not be created.", status: :unprocessable_entity
     end
   end
 
