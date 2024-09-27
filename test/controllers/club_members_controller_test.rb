@@ -17,9 +17,6 @@ class ClubMembersControllerTest < ActionDispatch::IntegrationTest
     assert_difference("ClubMember.count") do
       post join_club_path(@club2)
     end
-    if ClubMember.last.errors.any?
-      puts ClubMember.last.errors.full_messages
-    end
     assert_redirected_to @club2
   end
 

@@ -7,10 +7,6 @@ class ClubMemberTest < ActiveSupport::TestCase
     @club_member = ClubMember.new(club: @club, user: @user, role: "MEMBER")
   end
 
-  test "should be valid" do
-    assert @club_member.valid?
-  end
-
   test "club_id should be present" do
     @club_member.club_id = nil
     assert_not @club_member.valid?

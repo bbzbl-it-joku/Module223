@@ -9,7 +9,6 @@ class PasswordsController < ApplicationController
       if current_user.update(password_params.except(:current_password))
         redirect_to current_user, notice: "Password updated successfully"
       else
-        puts current_user.errors.full_messages
         render :edit, status: :unprocessable_entity
       end
     else

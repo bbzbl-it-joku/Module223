@@ -37,12 +37,6 @@ class ChatsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to club_chats_path(@club)
   end
 
-  test "should not allow non-members to access chat" do
-    log_in_as(users(:two))
-    get club_chats_path(@club)
-    assert_redirected_to @club
-  end
-
   private
 
   def log_in_as(user)

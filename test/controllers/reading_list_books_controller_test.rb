@@ -17,9 +17,6 @@ class ReadingListBooksControllerTest < ActionDispatch::IntegrationTest
     assert_difference("ReadingListBook.count") do
       post club_reading_list_books_path(@club), params: { reading_list_book: { book_id: @book2.id } }
 
-      if ReadingListBook.last.errors.any?
-        puts ReadingListBook.last.errors.full_messages
-      end
     end
     assert_redirected_to @club
   end
