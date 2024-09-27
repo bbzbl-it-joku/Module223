@@ -66,6 +66,10 @@ class ClubMembersController < ApplicationController
       redirect_to login_path, alert: "You must be logged in to access this page."
     end
   end
+
+  def club_member_params
+    params.require(:club_member).permit(:user_id, :role)
+  end
 end
 
 # rubocop:enable Metrics/LineLength
