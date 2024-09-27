@@ -8,11 +8,13 @@ class ReviewsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
+    log_in_as(@user)
     get book_reviews_path(@book)
     assert_response :success
   end
 
   test "should show review" do
+    log_in_as(@user)
     get book_review_path(@book, @review)
     assert_response :success
   end
@@ -59,5 +61,19 @@ class ReviewsControllerTest < ActionDispatch::IntegrationTest
       delete book_review_path(@book, @review)
     end
     assert_redirected_to book_path(@book)
+  end
+
+  private
+
+  def review_params
+    { rating: 5, review_text: "Great book!" }
+  end
+
+  def review_invalid_params
+    { rating: 6, review_text: "" }
+  end
+
+  def log_in_as(user)
+    post login_path, params: { email: user.email, password: "password1234" }
   end
 end
