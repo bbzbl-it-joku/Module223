@@ -42,4 +42,10 @@ class ChatsControllerTest < ActionDispatch::IntegrationTest
     get club_chats_path(@club)
     assert_redirected_to @club
   end
+
+  private
+
+  def log_in_as(user)
+    post login_path, params: { email: user.email, password: "password" }
+  end
 end
