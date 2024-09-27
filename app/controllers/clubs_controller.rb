@@ -1,5 +1,5 @@
 class ClubsController < ApplicationController
-  before_action :require_login, except: [ :index, :show ]
+  before_action :require_login, except: [ :index ]
   before_action :set_club, only: [ :show, :edit, :update, :destroy, :join, :leave, :edit_members ]
   before_action :require_admin, only: [ :edit, :update, :destroy, :edit_members ]
   before_action :authorize_club, only: [ :edit, :update, :destroy, :edit_members ]
@@ -28,7 +28,7 @@ class ClubsController < ApplicationController
       @club.club_members.create(user: current_user, role: "ADMIN")
       redirect_to @club, notice: "Club was successfully created."
     else
-      render :new
+      redirect_to error_path, alert: "Failed to create club.", status: :unprocessable_entity
     end
   end
 
