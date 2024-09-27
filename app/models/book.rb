@@ -5,7 +5,8 @@ class Book < ApplicationRecord
 
   validates :title, presence: true
   validates :author, presence: true
-  validates :isbn, uniqueness: true, format: { with: /\A(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+\z/, message: "must be a valid ISBN" }, allow_blank: true
+  validates :isbn, uniqueness: false
+  # validates :isbn, uniqueness: true, format: { with: /\A(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+\z/, message: "must be a valid ISBN" }, allow_blank: true
   validates :publish_date, presence: true
-  validates :description, length: { maximum: 2000 }
+  validates :description, length: { maximum: 5000 }
 end
