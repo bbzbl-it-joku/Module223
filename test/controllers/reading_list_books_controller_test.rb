@@ -16,7 +16,6 @@ class ReadingListBooksControllerTest < ActionDispatch::IntegrationTest
     log_in_as(@user_one_member)
     assert_difference("ReadingListBook.count") do
       post club_reading_list_books_path(@club), params: { reading_list_book: { book_id: @book2.id } }
-
     end
     assert_redirected_to @club
   end

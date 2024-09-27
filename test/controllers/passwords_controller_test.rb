@@ -22,8 +22,8 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
                                   user: {
                                     current_password: "password1234",
                                     password: "newpassword123",
-                                    password_confirmation: "newpassword123",
-                                  },
+                                    password_confirmation: "newpassword123"
+                                  }
                                 }
     assert_redirected_to @user
     # Verify that the password was actually changed
@@ -37,8 +37,8 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
                                  user: {
                                    current_password: "wrongpassword",
                                    password: "newpassword1234",
-                                   password_confirmation: "newpassword1234",
-                                 },
+                                   password_confirmation: "newpassword1234"
+                                 }
                                }
     assert_response :unprocessable_entity
     # Verify that the password was not changed
@@ -52,8 +52,8 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
                                  user: {
                                    current_password: "password1234",
                                    password: "newpassword1234",
-                                   password_confirmation: "differentpassword",
-                                 },
+                                   password_confirmation: "differentpassword"
+                                 }
                                }
     assert_response :unprocessable_entity
     # Verify that the password was not changed
